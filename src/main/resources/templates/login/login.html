@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login</title>
+    
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+      th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+      rel="stylesheet" media="screen" />
+
+ 	<link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+ 	
+	<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
+	        th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+	
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+	
+	<script th:src="@{/js/jquery-ui.js}"></script>
+	
+</head>
+<script>
+$(document).ready(function(){
+
+	$("#submitBtn").tooltip({
+		//tip內容
+		content: "請勾選驗證框",
+		//指定作用的物件,預設為[title]...即tag裡面有title屬性的才有作用
+		items: "input",
+		//位置設定
+		position: { my: "left top+15", at: "left bottom", collision: "flipfit" },
+		//消失特效(effect:特效,duration:秒數)
+		hide: { effect: "fade", duration: 1000 },
+		//顯示特效(effect:特效,duration:秒數)
+		show: { effect: "fade", duration: 1000 },
+		//是否跟隨滑鼠移動:true/false
+		track: false,
+		//tip css樣式class,未設定時為預設樣式,有設定時還是以預設樣式為基礎作更動
+		tooltipClass: ""
+	});
+});
+
+function recaptchaCallback(){
+	$('#submitBtn').removeAttr('disabled');
+	$('#submitBtn').css('cursor','pointer');
+	$('#submitBtn').tooltip("disable");
+}
+
+function goSubmit(){
+	var gre = grecaptcha.getResponse();
+	console.log("@@"+gre+"@@");
+	if(gre.length != 0){
+		$('#myForm').submit();
+	}
+	
+}
+</script>
+<style type="text/css">
+/* overwrite 預設樣式 */
+.ui-tooltip {
+    padding: 10px 20px;
+    border-radius: 20px;
+    font: bold 14px"Helvetica Neue", Sans-Serif;
+    text-transform: uppercase;
+    box-shadow: 0 0 7px black;
+}
+.ui-tooltip.warning {
+    color: #E3E8F7;
+    background: #D94AA4;
+}
+.ui-tooltip.danger {
+    color: #212942;
+    background: #CABA75;
+}
+</style>
+<body style="margin: 20px 50px;">
+    <form id="myForm" action="#" th:action="@{/goLogin}" th:object="${loginForm}" method="post">
+		<table>
+			<tr><td><label for="uid">UserId: </label></td><td><input type="text" th:id="uid" th:name="uid" th:placeholder="請輸入ID"/></td></tr>
+			<tr><td><label for="pwd">Password: </label></td><td><input type="password" th:id="pwd" th:name="pwd" th:placeholder="請輸入密碼"/></td></tr>
+		</table>
+		<div class="g-recaptcha"
+			data-sitekey="6LeAQBIUAAAAAOWZm9wwmwncyU2bnqE46kyzmZWf"
+			data-callback="recaptchaCallback"></div>
+		<p th:text="${errMsg}" th:if="${errMsg != null}" style="color: red;"></p>
+		<input type="button" id="submitBtn" value="Login" style="cursor:not-allowed" onclick="goSubmit()"/>
+	</form>
+</body>
+</html>

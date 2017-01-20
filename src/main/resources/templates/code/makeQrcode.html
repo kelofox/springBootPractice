@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>產生Qrcode</title>
+    
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+      th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+      rel="stylesheet" media="screen" />
+ 
+	<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
+	        th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+	
+	<script th:src="@{/js/jquery-qrcode-0.14.0.js}"></script>
+	
+	<script th:src="@{/js/makeQrcode.js}"></script>
+	
+</head>
+
+<body>
+    <h1>Qrcode</h1>
+    <h3 th:text="${content}"></h3>
+	<div id="container"></div>
+	<img id="qrCodeIco" th:src="@{/image/train.jpg}" style='display: none'/>
+	<input type='button' value='回上一頁' onclick='javascript:history.back();'/>
+	<input type="text" th:value="${content}" style='display: none' id="qrcodeContent"/>
+</body>
+</html>

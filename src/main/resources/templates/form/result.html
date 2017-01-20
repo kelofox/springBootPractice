@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Form input</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+	<h3>Form result</h3>
+	<p th:text="'Id : ' + ${phoneForm.phoneId}"></p>
+	<p th:text="'Name : ' + ${phoneForm.phoneName}"></p>
+	<p th:text="'Price : ' + ${phoneForm.phonePrice}"></p>
+	<a th:href="@{/goInput}">back to input</a>
+</body>
+</html>

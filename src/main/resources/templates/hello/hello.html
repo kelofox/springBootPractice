@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Hello Thymeleaf!</title>
+    
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+      th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+      rel="stylesheet" media="screen" />
+ 
+	<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
+	        th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+</head>
+<script>
+$(document).ready(function(){
+   countTime();
+});
+var timeOutSec = 120;	// timeout 時間
+var remindSec = 300;		// 提醒user時間
+var countDown = timeOutSec;
+function countTime(){
+	if (countDown != 1) {
+		countDown--;
+		document.getElementById('showTimeDiv').innerHTML = showTime(countDown);
+		if (countDown == remindSec) {
+				alert('剩下 '+ countDown +' 秒');
+		}
+	} else {
+			document.getElementById('showTimeDiv').innerHTML = '時間到';
+	}
+		setTimeout("countTime()", 1000);
+}
+
+function showTime(iTotal) {
+	var iSec = iTotal % 60;
+	var iMin = (iTotal - iSec) / 60;
+	return iMin + ' 分' + iSec + ' 秒';
+}
+</script>
+<body>
+    <p th:text="'Hello, ' + ${name} + '!'" />
+    <img th:src="@{/image/car.jpg}"/>
+    <div id='showTimeDiv'></div>
+    <a th:href="@{/hello(name=Kelo)}">name=Kelo</a>
+    <table border='1'>
+    	<tr>
+    		<th>name</th>
+    		<th>price</th>
+    	</tr>
+    	<tr><td colspan='2'><h3>th:each</h3></td></tr>
+    	<tr th:each="phone : ${phones}">
+	        <td th:text="${phone.name}"></td>
+			<td th:text="${phone.price}"></td>
+    	</tr>
+    	<tr><td colspan='2'><h3>th:if/th:unless</h3></td></tr>
+    	<tr th:each="phone : ${phones}">
+	        <td th:text="${phone.name}" th:if="${#strings.startsWith(phone.name,'iphone')}"></td>
+	        <td th:unless="${#strings.startsWith(phone.name,'iphone')}">這不是愛瘋</td>
+			<td th:text="${phone.price}"></td>
+    	</tr>
+    	<tr><td colspan='2'><h3>th:unless</h3></td></tr>
+    	<tr th:each="phone : ${phones}">
+	        <td th:text="${phone.name}" th:unless="${#strings.startsWith(phone.name,'iphone')}">not iphone</td>
+			<td th:text="${phone.price}"></td>
+    	</tr>
+    	<tr><td colspan='2'><h3>switch-case</h3></td></tr>
+    	<tr th:each="phone : ${phones}">
+	        <td th:switch="${phone.name}" >
+	        	<span th:case="Note-7">三星Note 7</span>
+	        	<span th:case="iphone-7">蘋果愛瘋 7</span>
+	        	<span th:case="zenPhone-3">華碩忍瘋 3</span>
+	        	<span th:case="*" th:text="'雜牌軍 :'+ ${phone.name}"></span>
+	        </td>
+			<td th:text="${phone.price}"></td>
+    	</tr>
+    	<tr><td colspan='2'><h3 th:text="'#strings, testStr = '+${testStr}"></h3></td></tr>
+    	<tr>
+	        <td>#strings.startsWith(testStr,'iphone')</td>
+			<td th:text="${#strings.startsWith(testStr,'iphone')}"></td>
+    	</tr>
+    	<tr>
+	        <td>#strings.endsWith(testStr,'iphone')</td>
+			<td th:text="${#strings.endsWith(testStr,'iphone')}"></td>
+    	</tr>
+    	<tr>
+	        <td>#strings.equals(testStr,'iphoneIamphone')</td>
+			<td th:text="${#strings.equals(testStr,'iphoneIamphone')}"></td>
+    	</tr>
+    	<tr>
+	        <td>${#strings.equalsIgnoreCase(testStr,'iphoneIamphone')</td>
+			<td th:text="${#strings.equalsIgnoreCase(testStr,'iphoneIamphone')}"></td>
+    	</tr>
+    	<tr>
+	        <td>${#strings.equalsIgnoreCase(testStr,'iphoneIamphone')</td>
+			<td th:text="${#strings.equalsIgnoreCase(testStr,'iphoneIamphone')}"></td>
+    	</tr>
+    	<tr><td colspan='2'><h3 th:text="'#dates, currentDate = '+${currentDate}"></h3></td></tr>
+    	<tr>
+	        <td>${#dates.format(currentDate, 'yyyy/MM/dd HH:mm')}</td>
+			<td th:text="${#dates.format(currentDate, 'yyyy/MM/dd HH:mm')}"></td>
+    	</tr>
+    	<tr>
+	        <td>${#dates.createNow()}</td>
+			<td th:text="${#dates.createNow()}"></td>
+    	</tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Form input</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
+	        th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+</head>
+<body>
+	<h3 th:text="#{form.queryTitle}"></h3>
+	<div th:fragment="ajaxtest">
+	<form action="#" th:action="@{/goSubmit}" th:object="${phoneForm}" method="post">
+		<p th:if="${#fields.hasErrors('phoneId')}" th:errors="*{phoneId}" style="color: red">Id Error</p>
+		<p>Id: <input type="text" th:id="phoneId" th:value="iphone" th:name="phoneId" /></p>
+		<p th:if="${#fields.hasErrors('phoneName')}" th:errors="*{phoneName}" style="color: red">Name Error</p>
+		<p>Name: <input type="text" th:field="*{phoneName}" /></p>
+		<p th:each="err : ${#fields.errors('phonePrice')}" th:text="#{${err}}" style="color: red">Price Error</p>
+		<p>Price: <input type="text" th:field="*{phonePrice}" /></p>
+		<p><input type="submit" value="Submit" /><input type="reset" value="Reset" /></p>
+		<br/><button type="button" onclick="ajaxTest();" >goAjax</button>
+	</form>
+	</div>
+	<footer th:include="layout/footer :: goldfooter">
+		<h2>plz replace me</h2>
+	</footer>
+	<div th:replace="layout/footer :: alert (type='danger', message=${errorMessage})">...</div>
+	<div id="ajaxResponse"></div>
+	<img src='goGraphic' id='validateImg'></img>
+	<p th:text="'驗證碼  : ' + ${checkCode}"></p>
+	驗證碼  :<input type="text" id="inputCode" /><input type="button" value="CHECK" id="checkBtn" onclick="ajaxTest()"/>
+</body>
+<script th:inline="javascript">
+function ajaxTest(){
+	alert("ajax!!");
+	var inputCode = $("#inputCode").val();
+	$.ajax({
+		type:"GET",
+		url:"/goAjax",
+		dataType:"html",
+		data: {"str":inputCode,"str2":"goAjax2"},
+		success:function(data){
+			alert("success");
+			$("#ajaxResponse").append("ajax is back");
+			$("#ajaxResponse").append(data);
+		},
+		error:function( XMLHttpRequest, strError ){
+			alert(strError);
+		}
+	});
+}
+$(document).ready(function(){
+	$("#validateImg").click(function(){
+		$(this).attr("src","goGraphic?a="+new Date().getMilliseconds());
+	});
+	$("#checkBtn").click(function(){
+		var inputCode = $("#inputCode").val();
+		var code = [[${session.checkCode}]];
+		console.log("inputCode : " + inputCode);
+		console.log("code : " + code);
+		if(inputCode == code){
+			alert("match!!");
+		}else{
+			alert("fail!!");
+		}
+	});
+	
+});
+</script>
+</html>

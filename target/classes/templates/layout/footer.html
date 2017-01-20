@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Spring Boot and Thymeleaf example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:fragment="goldfooter">
+	<h2 style="background: green;color: red">i am fragment</h2>
+</div>
+<footer>
+	<h2 style="background: green;color: red">i am footer</h2>
+</footer>
+<div th:fragment="alert (type, message)"
+         class="alert alert-dismissable" th:classappend="'alert-' + ${type}">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <span th:text="${message}">Test</span>
+</div>
+</body>
+</html>

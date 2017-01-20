@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login Success</title>
+    
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+      th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+      rel="stylesheet" media="screen" />
+ 
+	<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
+	        th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+	
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+	
+</head>
+<script>
+$(document).ready(function(){
+   
+});
+
+</script>
+<body>
+    <table border='1'>
+    	<tr>
+    		<th>name</th>
+    		<th>password</th>
+    	</tr>
+    	<tr>
+    		<td th:text="${loginForm.uid}"></td>
+    		<td th:text="${loginForm.pwd}"></td>
+    	</tr>
+    </table>
+    <input type='button' value='回登入頁' onclick="javascript:location.href='/login';"/>
+</body>
+</html>
